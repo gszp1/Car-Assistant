@@ -3,10 +3,12 @@ package com.github.gszp1.carassistant
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.TextClock
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Size
@@ -27,6 +30,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -66,8 +71,8 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier.fillMaxSize().padding(innerPadding),
                         ){
-                            TopBar(Modifier.weight(0.15f))
-                            MidBar(Modifier.weight(0.7f))
+                            TopBar(Modifier.weight(0.2f))
+                            MidBar(Modifier.weight(0.65f))
                             BottomBar(Modifier.weight(0.15f))
                         }
                     }
@@ -89,7 +94,9 @@ fun TopBar(
             .fillMaxHeight(0.2f)
             .background(Color(0xFF6E6E6E), TopArcShape)
             .arcOutline(accentColor, accentWidth, ::topArcOutlinePath)
-    ){}
+    ){
+        Clock()
+    }
 }
 
 @Composable
@@ -99,7 +106,8 @@ fun MidBar(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .fillMaxHeight(0.6f)
             .background(Color(0xFFCBCBCB))
-    ){}
+    ){
+    }
 }
 
 @Composable
@@ -158,4 +166,36 @@ private fun Modifier.arcOutline(
         color = color,
         style = Stroke(width = width.toPx(), cap = StrokeCap.Round)
     )
+}
+
+@Composable
+fun Clock() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        AndroidView(
+            factory = { context ->
+
+                // Text Clock
+                TextClock(context).apply {
+
+                    // set hour format
+                    format12Hour = "hh:mm a"
+
+                    // set time zone
+                    timeZone = timeZone
+
+                    // set text size
+                    textSize= 32f
+
+                    // set text color
+                    setTextColor(ContextCompat.getColor(context, R.color.black))
+                }
+            },
+            modifier = Modifier.padding(5.dp),
+        )
+    }
 }
