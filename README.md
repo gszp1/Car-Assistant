@@ -15,3 +15,7 @@ System powiadomień(ostrzeżenia pogodowe, konfigurowalne powiadomienia)
 Automatyczna zmiana między trybem dziennym a nocnym  
 Zapamiętanie miejsca parkowania(GPS)  
 ## Postępy w realizacji
+### 16.10.2026-23.10.2026
+- Rozpoczęcie prac nad implementacją projektu  
+- Utworzenie projektu android studio  
+- Implementacja szkieletu widoku poziomego  
