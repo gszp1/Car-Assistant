@@ -5,10 +5,12 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
 import com.github.gszp1.carassistant.ui.theme.DriveContentBackdropBrush
 import com.github.gszp1.carassistant.ui.theme.DriveContentCenter
 import com.github.gszp1.carassistant.ui.theme.DriveContentMid
+import com.github.gszp1.carassistant.ui.theme.DriveGridLine
 
 private const val BandCenterFraction = 0.525f
 private const val BandHalfCenter = 0.30f
@@ -43,8 +45,11 @@ private fun contentBandLayers(size: Size): List<Pair<Path, Color>> =
 
 internal fun Modifier.driveContentBackground() = drawWithCache {
     val layers = contentBandLayers(size)
+    val grid = hexGridPath(size, HexRadius.toPx())
+    val gridStroke = Stroke(width = HexStrokeWidth.toPx())
     onDrawBehind {
         drawRect(DriveContentBackdropBrush)
         layers.forEach { (path, color) -> drawPath(path, color) }
+        drawPath(grid, DriveGridLine, style = gridStroke)
     }
 }

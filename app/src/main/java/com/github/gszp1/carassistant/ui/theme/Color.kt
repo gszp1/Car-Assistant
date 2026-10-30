@@ -40,6 +40,10 @@ val DriveContentMid = Color(0xFF2E2E2E)
 
 val DriveContentEdge = Color(0xFF464646)
 
+val DriveGridLine = Color(0xFF0E3A42)
+
+val DriveIconAccent = DriveBarCenter
+
 val DriveContentBackdropBrush: Brush = Brush.verticalGradient(
     0.0f to DriveContentEdge,
     0.13f to DriveContentMid,

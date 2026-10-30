@@ -24,7 +24,7 @@ fun Clock(modifier: Modifier = Modifier) {
             factory = { context ->
                 TextClock(context).apply {
                     format12Hour = "hh:mm a"
-                    textSize = 32f
+                    textSize = 48f
                     setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             },
