@@ -33,3 +33,16 @@ val DriveBarBrush: Brush = Brush.horizontalGradient(
     0.72f to DriveBarMid,
     1.0f to DriveBarEdge,
 )
+
+val DriveContentCenter = Color(0xFF1E1E1E)
+
+val DriveContentMid = Color(0xFF2E2E2E)
+
+val DriveContentEdge = Color(0xFF464646)
+
+val DriveContentBackdropBrush: Brush = Brush.verticalGradient(
+    0.0f to DriveContentEdge,
+    0.13f to DriveContentMid,
+    0.92f to DriveContentMid,
+    1.0f to DriveContentEdge,
+)
