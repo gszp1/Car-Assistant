@@ -10,20 +10,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.gszp1.carassistant.ui.components.Clock
-import com.github.gszp1.carassistant.ui.theme.DriveAccent
-import com.github.gszp1.carassistant.ui.theme.DriveTopBarSurface
+import com.github.gszp1.carassistant.ui.theme.DriveBarBrush
+import com.github.gszp1.carassistant.ui.theme.DriveBarOutline
 
 @Composable
 fun DriveTopBar(
     modifier: Modifier = Modifier,
-    accentColor: Color = DriveAccent,
-    accentWidth: Dp = 5.dp,
+    accentColor: Color = DriveBarOutline,
+    accentWidth: Dp = 3.dp,
 ) {
     Row(
         modifier
             .fillMaxWidth()
             .fillMaxHeight(0.2f)
-            .background(DriveTopBarSurface, TopArcShape)
+            .background(DriveBarBrush, TopArcShape)
             .arcOutline(accentColor, accentWidth, ::topArcOutlinePath)
     ) {
         Clock()
