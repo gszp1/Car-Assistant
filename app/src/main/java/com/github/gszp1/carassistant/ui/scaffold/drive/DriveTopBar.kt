@@ -1,10 +1,13 @@
 package com.github.gszp1.carassistant.ui.scaffold.drive
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -18,14 +21,35 @@ fun DriveTopBar(
     modifier: Modifier = Modifier,
     accentColor: Color = DriveBarOutline,
     accentWidth: Dp = 3.dp,
+    onOpenAppStyle: () -> Unit = {},
+    onOpenAppGrid: () -> Unit = {},
 ) {
-    Row(
+    Box(
         modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.2f)
+            .fillMaxHeight()
             .background(DriveBarBrush, TopArcShape)
             .arcOutline(accentColor, accentWidth, ::topArcOutlinePath)
     ) {
-        Clock()
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.Top,
+        ) {
+            DriveBarButton(
+                text = "Styl aplikacji",
+                onClick = onOpenAppStyle,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(BarSafeContentHeight),
+            )
+            Clock(Modifier.weight(1f))
+            DriveBarButton(
+                text = "Siatka aplikacji",
+                onClick = onOpenAppGrid,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight(BarSafeContentHeight),
+            )
+        }
     }
 }

@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 
@@ -20,12 +21,13 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             CarAssistantTheme {
-                DriveScaffold()
+                DriveScaffold {
+                    AppLauncherRow()
+                }
             }
         }
     }
 
-    /** Rysowanie pod wcięciem ekranu i ukrycie pasków systemowych. */
     private fun configureFullScreenWindow() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes = window.attributes.apply {
