@@ -22,3 +22,4 @@ Zapamiętanie miejsca parkowania(GPS)
 ### 24.10.2026-30.10.2026
 - Definicja stylizacji widoku poziomego
 - Implementacja stylizacji
+- Układ przycisków w widoku poziomym
