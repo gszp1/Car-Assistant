@@ -19,3 +19,6 @@ Zapamiętanie miejsca parkowania(GPS)
 - Rozpoczęcie prac nad implementacją projektu  
 - Utworzenie projektu android studio  
 - Implementacja szkieletu widoku poziomego  
+### 24.10.2026-30.10.2026
+- Definicja stylizacji widoku poziomego
+- Implementacja stylizacji
