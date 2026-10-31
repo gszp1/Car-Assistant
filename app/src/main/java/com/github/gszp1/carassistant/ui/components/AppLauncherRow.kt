@@ -26,7 +26,7 @@ private const val VisibleTiles = 3
 private const val AppTileHeightFraction = 0.82f
 private val AppTileSpacing = 20.dp
 
-val DriveApps = listOf("Telefon", "Nawigacja", "Muzyka")
+val DriveApps = listOf("Phone", "Navigation", "Music")
 
 @Composable
 fun AppLauncherRow(

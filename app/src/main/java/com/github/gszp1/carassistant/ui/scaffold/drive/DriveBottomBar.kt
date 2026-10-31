@@ -25,7 +25,7 @@ fun DriveBottomBar(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
     accentWidth: Dp = 3.dp,
-    trackLabel: String = "Tytuł utworu",
+    trackLabel: String = "Track title",
     onPrevious: () -> Unit = {},
     onPlayPause: () -> Unit = {},
     onNext: () -> Unit = {},
@@ -56,9 +56,9 @@ fun DriveBottomBar(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                DriveBarButton(text = "Poprzedni", onClick = onPrevious)
-                DriveBarButton(text = "Odtwórz", onClick = onPlayPause)
-                DriveBarButton(text = "Następny", onClick = onNext)
+                DriveBarButton(text = "Previous", onClick = onPrevious)
+                DriveBarButton(text = "Play", onClick = onPlayPause)
+                DriveBarButton(text = "Next", onClick = onNext)
             }
             Box(
                 modifier = Modifier
@@ -66,7 +66,7 @@ fun DriveBottomBar(
                     .fillMaxHeight(),
                 contentAlignment = Alignment.BottomCenter,
             ) {
-                DriveBarButton(text = "Głośność", onClick = onOpenVolume)
+                DriveBarButton(text = "Volume", onClick = onOpenVolume)
             }
         }
     }

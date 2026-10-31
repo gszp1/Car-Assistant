@@ -34,7 +34,7 @@ fun DriveTopBar(
             verticalAlignment = Alignment.Top,
         ) {
             DriveBarButton(
-                text = "Styl aplikacji",
+                text = "App style",
                 onClick = onOpenAppStyle,
                 modifier = Modifier
                     .weight(1f)
@@ -42,7 +42,7 @@ fun DriveTopBar(
             )
             Clock(Modifier.weight(1f))
             DriveBarButton(
-                text = "Siatka aplikacji",
+                text = "App grid",
                 onClick = onOpenAppGrid,
                 modifier = Modifier
                     .weight(1f)
