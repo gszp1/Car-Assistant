@@ -9,17 +9,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.github.gszp1.carassistant.ui.components.Clock
-import com.github.gszp1.carassistant.ui.theme.DriveBarBrush
-import com.github.gszp1.carassistant.ui.theme.DriveBarOutline
+import com.github.gszp1.carassistant.ui.theme.DrivePalette
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 
 @Composable
 fun DriveTopBar(
     modifier: Modifier = Modifier,
-    accentColor: Color = DriveBarOutline,
+    palette: DrivePalette = LocalDrivePalette.current,
     accentWidth: Dp = 3.dp,
     onOpenAppStyle: () -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
@@ -28,8 +27,8 @@ fun DriveTopBar(
         modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(DriveBarBrush, TopArcShape)
-            .arcOutline(accentColor, accentWidth, ::topArcOutlinePath)
+            .background(palette.barBrush, TopArcShape)
+            .arcOutline(palette.barOutline, accentWidth, ::topArcOutlinePath)
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),

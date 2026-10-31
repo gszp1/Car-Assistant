@@ -16,16 +16,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.github.gszp1.carassistant.ui.theme.DriveBarBrush
-import com.github.gszp1.carassistant.ui.theme.DriveBarLabel
-import com.github.gszp1.carassistant.ui.theme.DriveBarOutline
+import com.github.gszp1.carassistant.ui.theme.DrivePalette
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 
 private const val TransportWeight = 1.2f
 
 @Composable
 fun DriveBottomBar(
     modifier: Modifier = Modifier,
-    accentColor: Color = DriveBarOutline,
+    palette: DrivePalette = LocalDrivePalette.current,
     accentWidth: Dp = 3.dp,
     trackLabel: String = "Tytuł utworu",
     onPrevious: () -> Unit = {},
@@ -37,8 +36,8 @@ fun DriveBottomBar(
         modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(DriveBarBrush, BottomArcShape)
-            .arcOutline(accentColor, accentWidth, ::bottomArcOutlinePath)
+            .background(palette.barBrush, BottomArcShape)
+            .arcOutline(palette.barOutline, accentWidth, ::bottomArcOutlinePath)
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -49,6 +48,7 @@ fun DriveBottomBar(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(BarSafeContentHeight),
+                color = palette.barLabel,
             )
             Row(
                 modifier = Modifier
@@ -76,12 +76,13 @@ fun DriveBottomBar(
 @Composable
 private fun DriveBarLabelText(
     text: String,
+    color: Color,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
         Text(
             text = text,
-            color = DriveBarLabel,
+            color = color,
             textAlign = TextAlign.Center,
             maxLines = 2,
             style = MaterialTheme.typography.labelMedium,

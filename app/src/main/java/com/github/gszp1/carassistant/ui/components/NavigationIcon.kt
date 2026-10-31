@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,8 +15,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.gszp1.carassistant.ui.theme.DriveContentCenter
-import com.github.gszp1.carassistant.ui.theme.DriveIconAccent
+import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
+import com.github.gszp1.carassistant.ui.theme.Styles
 
 val NavigationArrow: ImageVector = ImageVector.Builder(
     name = "NavigationArrow",
@@ -50,23 +52,25 @@ val NavigationArrow: ImageVector = ImageVector.Builder(
 @Composable
 fun NavigationIcon(
     modifier: Modifier = Modifier,
-    tint: Color = DriveIconAccent,
+    tint: Color = LocalDrivePalette.current.iconAccent,
 ) {
     Icon(
         imageVector = NavigationArrow,
-        contentDescription = "Nawigacja",
+        contentDescription = "Navigation",
         modifier = modifier,
         tint = tint,
     )
 }
 
-@Preview(name = "Ikona nawigacji", showBackground = false)
+@Preview(name = "navigation-icon", showBackground = false)
 @Composable
 private fun NavigationIconPreview() {
-    NavigationIcon(
-        modifier = Modifier
-            .background(DriveContentCenter)
-            .padding(12.dp)
-            .size(72.dp)
-    )
+    CarAssistantTheme(style = Styles.AQUAMARINE) {
+        NavigationIcon(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(12.dp)
+                .size(72.dp)
+        )
+    }
 }

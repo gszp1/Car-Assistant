@@ -7,7 +7,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import com.github.gszp1.carassistant.ui.theme.DriveIconAccent
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 
 internal const val BarSafeContentHeight = 0.6f
 
@@ -20,7 +20,9 @@ internal fun DriveBarButton(
     TextButton(
         onClick = onClick,
         modifier = modifier,
-        colors = ButtonDefaults.textButtonColors(contentColor = DriveIconAccent),
+        colors = ButtonDefaults.textButtonColors(
+            contentColor = LocalDrivePalette.current.iconAccent,
+        ),
     ) {
         Text(
             text = text,
