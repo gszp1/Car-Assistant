@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
+import com.github.gszp1.carassistant.ui.theme.DriveMode
 import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 import com.github.gszp1.carassistant.ui.theme.Styles
@@ -24,8 +25,8 @@ private const val DayMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_M
 fun DriveScaffold(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
-    onOpenAppStyle: () -> Unit = {},
-    onToggleMode: () -> Unit = {},
+    onSelectStyle: (Styles) -> Unit = {},
+    onSelectMode: (DriveMode) -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
@@ -42,8 +43,8 @@ fun DriveScaffold(
             DriveTopBar(
                 modifier = Modifier.weight(0.2f),
                 palette = palette,
-                onOpenAppStyle = onOpenAppStyle,
-                onToggleMode = onToggleMode,
+                onSelectStyle = onSelectStyle,
+                onSelectMode = onSelectMode,
                 onOpenAppGrid = onOpenAppGrid,
             )
             Box(

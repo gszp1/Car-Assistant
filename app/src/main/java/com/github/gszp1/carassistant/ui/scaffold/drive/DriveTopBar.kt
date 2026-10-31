@@ -5,25 +5,47 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Palette
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.github.gszp1.carassistant.ui.components.Clock
+import com.github.gszp1.carassistant.ui.components.StyleMenu
 import com.github.gszp1.carassistant.ui.theme.DriveMode
 import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
+import com.github.gszp1.carassistant.ui.theme.Styles
+
+private val MenuGap = 4.dp
+private val MenuInset = 12.dp
 
 @Composable
 fun DriveTopBar(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
     accentWidth: Dp = 3.dp,
-    onOpenAppStyle: () -> Unit = {},
-    onToggleMode: () -> Unit = {},
+    onSelectStyle: (Styles) -> Unit = {},
+    onSelectMode: (DriveMode) -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
 ) {
+    var stylesVisible by rememberSaveable { mutableStateOf(false) }
+    var anchorHeight by remember { mutableIntStateOf(0) }
+    val menuOffset = with(LocalDensity.current) {
+        IntOffset(MenuInset.roundToPx(), MenuGap.roundToPx())
+    }
+
     Box(
         modifier
             .fillMaxWidth()
@@ -35,20 +57,25 @@ fun DriveTopBar(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.Top,
         ) {
-            Row(
+            Box(
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight(BarSafeContentHeight),
+                    .fillMaxHeight(BarSafeContentHeight)
+                    .onSizeChanged { anchorHeight = it.height },
             ) {
                 DriveBarButton(
-                    text = "App style",
-                    onClick = onOpenAppStyle,
-                    modifier = Modifier.weight(1f),
+                    text = "Style",
+                    onClick = { stylesVisible = !stylesVisible },
+                    modifier = Modifier.fillMaxSize(),
+                    icon = Icons.Default.Palette,
                 )
-                DriveBarButton(
-                    text = if (palette.mode == DriveMode.NIGHT) "Night" else "Day",
-                    onClick = onToggleMode,
-                    modifier = Modifier.weight(1f),
+                StyleMenu(
+                    visible = stylesVisible,
+                    onDismiss = { stylesVisible = false },
+                    onSelectStyle = onSelectStyle,
+                    onSelectMode = onSelectMode,
+                    anchorOffset = menuOffset.copy(y = anchorHeight + menuOffset.y),
+                    palette = palette,
                 )
             }
             Clock(Modifier.weight(1f))

@@ -32,8 +32,8 @@ class MainActivity : ComponentActivity() {
 
             CarAssistantTheme(style = style, mode = mode) {
                 DriveScaffold(
-                    onOpenAppStyle = { style = style.next() },
-                    onToggleMode = { mode = mode.toggle() },
+                    onSelectStyle = { style = it },
+                    onSelectMode = { mode = it },
                 ) {
                     AppLauncherRow()
                 }

@@ -8,18 +8,16 @@ import androidx.compose.ui.graphics.lerp
 
 private const val BarMidStop = 0.7f
 
-enum class DriveMode {
-    DAY,
-    NIGHT;
-
-    fun toggle(): DriveMode = if (this == DAY) NIGHT else DAY
+enum class DriveMode(val label: String) {
+    DAY("Day"),
+    NIGHT("Night"),
 }
 
-enum class Styles {
-    AQUAMARINE,
-    AMBER_SHIFT,
-    EMERALD_CORE,
-    RUBY_DYNAMIC;
+enum class Styles(val label: String) {
+    AQUAMARINE("Aquamarine"),
+    AMBER_SHIFT("Amber shift"),
+    EMERALD_CORE("Emerald core"),
+    RUBY_DYNAMIC("Ruby dynamic");
 
     fun palette(mode: DriveMode): DrivePalette = when (this) {
         AQUAMARINE -> AquamarinePalettes
@@ -27,8 +25,6 @@ enum class Styles {
         EMERALD_CORE -> EmeraldCorePalettes
         RUBY_DYNAMIC -> RubyDynamicPalettes
     }[mode]
-
-    fun next(): Styles = entries[(ordinal + 1) % entries.size]
 }
 
 @Immutable
@@ -53,6 +49,12 @@ data class DrivePalette(
         } else {
             lerp(barMid, barCenter, (fraction - BarMidStop) / (1f - BarMidStop))
         }
+
+    val swatchBrush: Brush = Brush.linearGradient(
+        0.0f to barCenter,
+        0.5f to barOutline,
+        1.0f to barMid,
+    )
 
     val contentBackdropBrush: Brush = Brush.verticalGradient(
         0.0f to contentEdge,
