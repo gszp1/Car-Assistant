@@ -4,6 +4,10 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
+
+/** Ułamek wysokości belki, na którym czerń krawędzi przechodzi w ciemny odcień akcentu. */
+private const val BarMidStop = 0.7f
 
 enum class Styles {
     AQUAMARINE,
@@ -36,13 +40,16 @@ data class DrivePalette(
     val contentMid: Color,
     val contentEdge: Color,
 ) {
-    val barBrush: Brush = Brush.horizontalGradient(
-        0.0f to barEdge,
-        0.28f to barMid,
-        0.5f to barCenter,
-        0.72f to barMid,
-        1.0f to barEdge,
-    )
+    /**
+     * Kolor wypełnienia belki dla ułamka wysokości liczonego od prostej krawędzi ekranu (0f)
+     * do krzywej belki (1f).
+     */
+    fun barColorAt(fraction: Float): Color =
+        if (fraction <= BarMidStop) {
+            lerp(barEdge, barMid, fraction / BarMidStop)
+        } else {
+            lerp(barMid, barCenter, (fraction - BarMidStop) / (1f - BarMidStop))
+        }
 
     val contentBackdropBrush: Brush = Brush.verticalGradient(
         0.0f to contentEdge,

@@ -2,8 +2,6 @@ package com.github.gszp1.carassistant.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-/** Kolory neutralne, niezależne od stylu wybranego w [Styles]. */
-
 internal val DriveBarEdge = Color(0xFF000000)
 
 internal val DriveContentCenter = Color(0xFF1E1E1E)

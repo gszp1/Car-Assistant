@@ -1,6 +1,5 @@
 package com.github.gszp1.carassistant.ui.scaffold.drive
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -36,8 +35,8 @@ fun DriveBottomBar(
         modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(palette.barBrush, BottomArcShape)
-            .arcOutline(palette.barOutline, accentWidth, ::bottomArcOutlinePath)
+            .arcBarBackground(palette, ::bottomArcPath)
+            .arcOutline(palette.barCenter, accentWidth, ::bottomArcOutlinePath)
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
