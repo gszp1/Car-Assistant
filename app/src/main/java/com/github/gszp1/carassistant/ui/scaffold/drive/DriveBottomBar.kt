@@ -1,14 +1,24 @@
 package com.github.gszp1.carassistant.ui.scaffold.drive
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.SkipNext
+import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +41,8 @@ fun DriveBottomBar(
     onNext: () -> Unit = {},
     onOpenVolume: () -> Unit = {},
 ) {
+    var playing by rememberSaveable { mutableStateOf(false) }
+
     Box(
         modifier
             .fillMaxWidth()
@@ -53,12 +65,29 @@ fun DriveBottomBar(
                 modifier = Modifier
                     .weight(TransportWeight)
                     .fillMaxHeight(),
-                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                DriveBarButton(text = "Previous", onClick = onPrevious)
-                DriveBarButton(text = "Play", onClick = onPlayPause)
-                DriveBarButton(text = "Next", onClick = onNext)
+                DriveBarButton(
+                    text = "Previous",
+                    onClick = onPrevious,
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.SkipPrevious
+                )
+                DriveBarButton(
+                    text = "Play",
+                    onClick = {
+                        playing = !playing
+                        onPlayPause()
+                    },
+                    modifier = Modifier.weight(1f),
+                    icon = if (playing) Icons.Default.Pause else Icons.Default.PlayArrow
+                )
+                DriveBarButton(
+                    text = "Next",
+                    onClick = onNext,
+                    modifier = Modifier.weight(1f),
+                    icon = Icons.Default.SkipNext
+                )
             }
             Box(
                 modifier = Modifier
@@ -66,7 +95,11 @@ fun DriveBottomBar(
                     .fillMaxHeight(),
                 contentAlignment = Alignment.BottomCenter,
             ) {
-                DriveBarButton(text = "Volume", onClick = onOpenVolume)
+                DriveBarButton(
+                    text = "Volume",
+                    onClick = onOpenVolume,
+                    icon = Icons.AutoMirrored.Filled.VolumeUp
+                )
             }
         }
     }

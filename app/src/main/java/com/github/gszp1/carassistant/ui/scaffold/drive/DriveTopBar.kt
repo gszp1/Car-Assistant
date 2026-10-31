@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,11 +81,12 @@ fun DriveTopBar(
             }
             Clock(Modifier.weight(1f))
             DriveBarButton(
-                text = "App grid",
+                text = "Applications",
                 onClick = onOpenAppGrid,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(BarSafeContentHeight),
+                icon = Icons.Default.GridView
             )
         }
     }
