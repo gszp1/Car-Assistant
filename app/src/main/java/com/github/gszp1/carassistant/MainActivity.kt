@@ -17,6 +17,7 @@ import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.Styles
+import com.github.gszp1.carassistant.ui.theme.systemDriveMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +27,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             var style by rememberSaveable { mutableStateOf(Styles.AQUAMARINE) }
+            val systemMode = systemDriveMode()
+            var mode by rememberSaveable(systemMode) { mutableStateOf(systemMode) }
 
-            CarAssistantTheme(style = style) {
-                DriveScaffold(onOpenAppStyle = { style = style.next() }) {
+            CarAssistantTheme(style = style, mode = mode) {
+                DriveScaffold(
+                    onOpenAppStyle = { style = style.next() },
+                    onToggleMode = { mode = mode.toggle() },
+                ) {
                     AppLauncherRow()
                 }
             }

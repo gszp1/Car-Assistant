@@ -1,5 +1,6 @@
 package com.github.gszp1.carassistant.ui.scaffold.drive
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,11 +17,15 @@ import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 import com.github.gszp1.carassistant.ui.theme.Styles
 
+private const val NightMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+private const val DayMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
+
 @Composable
 fun DriveScaffold(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
     onOpenAppStyle: () -> Unit = {},
+    onToggleMode: () -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
@@ -38,6 +43,7 @@ fun DriveScaffold(
                 modifier = Modifier.weight(0.2f),
                 palette = palette,
                 onOpenAppStyle = onOpenAppStyle,
+                onToggleMode = onToggleMode,
                 onOpenAppGrid = onOpenAppGrid,
             )
             Box(
@@ -55,19 +61,23 @@ fun DriveScaffold(
     }
 }
 
-@Preview(name = "Style – aquamarine", widthDp = 960, heightDp = 540)
+@Preview(name = "Style – aquamarine – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – aquamarine – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
 @Composable
 private fun DriveScaffoldAquamarinePreview() = DriveScaffoldPreview(Styles.AQUAMARINE)
 
-@Preview(name = "Style – amber shift", widthDp = 960, heightDp = 540)
+@Preview(name = "Style – amber shift – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – amber shift – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
 @Composable
 private fun DriveScaffoldAmberShiftPreview() = DriveScaffoldPreview(Styles.AMBER_SHIFT)
 
-@Preview(name = "Style – emerald core", widthDp = 960, heightDp = 540)
+@Preview(name = "Style – emerald core – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – emerald core – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
 @Composable
 private fun DriveScaffoldEmeraldCorePreview() = DriveScaffoldPreview(Styles.EMERALD_CORE)
 
-@Preview(name = "Style – ruby dynamic", widthDp = 960, heightDp = 540)
+@Preview(name = "Style – ruby dynamic – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – ruby dynamic – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
 @Composable
 private fun DriveScaffoldRubyDynamicPreview() = DriveScaffoldPreview(Styles.RUBY_DYNAMIC)
 
