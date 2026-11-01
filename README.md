@@ -23,3 +23,9 @@ Zapamiętanie miejsca parkowania(GPS)
 - Definicja stylizacji widoku poziomego
 - Implementacja stylizacji
 - Układ przycisków w widoku poziomym
+### 31.10.2026-06.11.2026
+- Dodanie trybu nocnego i dziennego
+- Zdefiniowanie 4 styli interfejsu graficznego
+- Implementacja okienka do personalizacji wyglądu aplikacji
+- Podniesienie wersji kotlin i composeBom
+- Wzbogacenie interfejsu o ikony z Material Icons
