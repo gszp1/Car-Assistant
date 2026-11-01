@@ -25,7 +25,7 @@ Zapamiętanie miejsca parkowania(GPS)
 - Układ przycisków w widoku poziomym
 ### 31.10.2026-06.11.2026
 - Dodanie trybu nocnego i dziennego
-- Zdefiniowanie 4 styli interfejsu graficznego
+- Zdefiniowanie 4 stylów interfejsu graficznego
 - Implementacja okienka do personalizacji wyglądu aplikacji
 - Podniesienie wersji kotlin i composeBom
 - Wzbogacenie interfejsu o ikony z Material Icons
