@@ -6,12 +6,18 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
+import com.github.gszp1.carassistant.ui.theme.Styles
+import com.github.gszp1.carassistant.ui.theme.systemDriveMode
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +26,15 @@ class MainActivity : ComponentActivity() {
         configureFullScreenWindow()
 
         setContent {
-            CarAssistantTheme {
-                DriveScaffold {
+            var style by rememberSaveable { mutableStateOf(Styles.AQUAMARINE) }
+            val systemMode = systemDriveMode()
+            var mode by rememberSaveable(systemMode) { mutableStateOf(systemMode) }
+
+            CarAssistantTheme(style = style, mode = mode) {
+                DriveScaffold(
+                    onSelectStyle = { style = it },
+                    onSelectMode = { mode = it },
+                ) {
                     AppLauncherRow()
                 }
             }

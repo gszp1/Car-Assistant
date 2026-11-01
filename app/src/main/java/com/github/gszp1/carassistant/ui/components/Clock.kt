@@ -8,13 +8,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.content.ContextCompat
-import com.github.gszp1.carassistant.R
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 
 @Composable
-fun Clock(modifier: Modifier = Modifier) {
+fun Clock(
+    modifier: Modifier = Modifier,
+    color: Color = LocalDrivePalette.current.iconAccent,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -25,9 +29,9 @@ fun Clock(modifier: Modifier = Modifier) {
                 TextClock(context).apply {
                     format12Hour = "hh:mm a"
                     textSize = 48f
-                    setTextColor(ContextCompat.getColor(context, R.color.black))
                 }
             },
+            update = { clock -> clock.setTextColor(color.toArgb()) },
             modifier = Modifier.padding(5.dp),
         )
     }

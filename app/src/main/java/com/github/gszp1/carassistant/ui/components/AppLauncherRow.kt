@@ -19,14 +19,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.github.gszp1.carassistant.ui.theme.DriveBarOutline
-import com.github.gszp1.carassistant.ui.theme.DriveIconAccent
+import com.github.gszp1.carassistant.ui.theme.DrivePalette
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 
 private const val VisibleTiles = 3
 private const val AppTileHeightFraction = 0.82f
 private val AppTileSpacing = 20.dp
 
-val DriveApps = listOf("Telefon", "Nawigacja", "Muzyka")
+val DriveApps = listOf("Phone", "Navigation", "Music")
 
 @Composable
 fun AppLauncherRow(
@@ -63,13 +63,14 @@ private fun AppTile(
     label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    palette: DrivePalette = LocalDrivePalette.current,
 ) {
     OutlinedButton(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(1.dp, DriveBarOutline),
-        colors = ButtonDefaults.outlinedButtonColors(contentColor = DriveIconAccent),
+        border = BorderStroke(1.dp, palette.barOutline),
+        colors = ButtonDefaults.outlinedButtonColors(contentColor = palette.iconAccent),
     ) {
         Text(
             text = label,

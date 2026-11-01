@@ -7,10 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.lerp
-import com.github.gszp1.carassistant.ui.theme.DriveContentBackdropBrush
-import com.github.gszp1.carassistant.ui.theme.DriveContentCenter
-import com.github.gszp1.carassistant.ui.theme.DriveContentMid
-import com.github.gszp1.carassistant.ui.theme.DriveGridLine
+import com.github.gszp1.carassistant.ui.theme.DrivePalette
 
 private const val BandCenterFraction = 0.525f
 private const val BandHalfCenter = 0.30f
@@ -35,21 +32,21 @@ private fun contentBandPath(size: Size, scale: Float): Path {
 
 private fun smoothStep(fraction: Float) = fraction * fraction * (3f - 2f * fraction)
 
-private fun contentBandLayers(size: Size): List<Pair<Path, Color>> =
+private fun contentBandLayers(size: Size, palette: DrivePalette): List<Pair<Path, Color>> =
     List(BandSteps) { step ->
         val fraction = step / (BandSteps - 1f)
         val scale = 1f - (1f - BandCoreScale) * fraction
         contentBandPath(size, scale) to
-            lerp(DriveContentMid, DriveContentCenter, smoothStep(fraction))
+            lerp(palette.contentMid, palette.contentCenter, smoothStep(fraction))
     }
 
-internal fun Modifier.driveContentBackground() = drawWithCache {
-    val layers = contentBandLayers(size)
+internal fun Modifier.driveContentBackground(palette: DrivePalette) = drawWithCache {
+    val layers = contentBandLayers(size, palette)
     val grid = hexGridPath(size, HexRadius.toPx())
     val gridStroke = Stroke(width = HexStrokeWidth.toPx())
     onDrawBehind {
-        drawRect(DriveContentBackdropBrush)
+        drawRect(palette.contentBackdropBrush)
         layers.forEach { (path, color) -> drawPath(path, color) }
-        drawPath(grid, DriveGridLine, style = gridStroke)
+        drawPath(grid, palette.gridLine, style = gridStroke)
     }
 }

@@ -1,5 +1,6 @@
 package com.github.gszp1.carassistant.ui.scaffold.drive
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,10 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
+import com.github.gszp1.carassistant.ui.theme.DriveMode
+import com.github.gszp1.carassistant.ui.theme.DrivePalette
+import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
+import com.github.gszp1.carassistant.ui.theme.Styles
+
+private const val NightMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+private const val DayMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL
 
 @Composable
 fun DriveScaffold(
     modifier: Modifier = Modifier,
+    palette: DrivePalette = LocalDrivePalette.current,
+    onSelectStyle: (Styles) -> Unit = {},
+    onSelectMode: (DriveMode) -> Unit = {},
+    onOpenAppGrid: () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
     Scaffold(
@@ -25,10 +37,16 @@ fun DriveScaffold(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .driveContentBackground()
+                .driveContentBackground(palette)
                 .padding(innerPadding),
         ) {
-            DriveTopBar(Modifier.weight(0.2f))
+            DriveTopBar(
+                modifier = Modifier.weight(0.2f),
+                palette = palette,
+                onSelectStyle = onSelectStyle,
+                onSelectMode = onSelectMode,
+                onOpenAppGrid = onOpenAppGrid,
+            )
             Box(
                 modifier = Modifier
                     .weight(0.65f)
@@ -36,15 +54,37 @@ fun DriveScaffold(
             ) {
                 content()
             }
-            DriveBottomBar(Modifier.weight(0.15f))
+            DriveBottomBar(
+                modifier = Modifier.weight(0.15f),
+                palette = palette,
+            )
         }
     }
 }
 
-@Preview(name = "Tryb jazdy", widthDp = 960, heightDp = 540)
+@Preview(name = "Style – aquamarine – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – aquamarine – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
 @Composable
-private fun DriveScaffoldPreview() {
-    CarAssistantTheme {
+private fun DriveScaffoldAquamarinePreview() = DriveScaffoldPreview(Styles.AQUAMARINE)
+
+@Preview(name = "Style – amber shift – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – amber shift – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
+@Composable
+private fun DriveScaffoldAmberShiftPreview() = DriveScaffoldPreview(Styles.AMBER_SHIFT)
+
+@Preview(name = "Style – emerald core – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – emerald core – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
+@Composable
+private fun DriveScaffoldEmeraldCorePreview() = DriveScaffoldPreview(Styles.EMERALD_CORE)
+
+@Preview(name = "Style – ruby dynamic – night", widthDp = 960, heightDp = 540, uiMode = NightMode)
+@Preview(name = "Style – ruby dynamic – day", widthDp = 960, heightDp = 540, uiMode = DayMode)
+@Composable
+private fun DriveScaffoldRubyDynamicPreview() = DriveScaffoldPreview(Styles.RUBY_DYNAMIC)
+
+@Composable
+private fun DriveScaffoldPreview(style: Styles) {
+    CarAssistantTheme(style = style) {
         DriveScaffold {
             AppLauncherRow()
         }
