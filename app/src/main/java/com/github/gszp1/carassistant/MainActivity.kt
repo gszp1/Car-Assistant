@@ -13,7 +13,9 @@ import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.github.gszp1.carassistant.navigation.openGoogleMaps
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
+import com.github.gszp1.carassistant.ui.components.NavigationApp
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.Styles
@@ -35,7 +37,11 @@ class MainActivity : ComponentActivity() {
                     onSelectStyle = { style = it },
                     onSelectMode = { mode = it },
                 ) {
-                    AppLauncherRow()
+                    AppLauncherRow(
+                        onLaunch = { app ->
+                            if (app == NavigationApp) openGoogleMaps()
+                        },
+                    )
                 }
             }
         }
