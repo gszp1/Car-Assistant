@@ -29,3 +29,4 @@ Zapamiętanie miejsca parkowania(GPS)
 - Implementacja okienka do personalizacji wyglądu aplikacji
 - Podniesienie wersji kotlin i composeBom
 - Wzbogacenie interfejsu o ikony z Material Icons
+- Uruchamianie nawigacji (google maps) z poziomu aplikacji
