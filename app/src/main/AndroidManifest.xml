@@ -6,11 +6,18 @@
 
     <queries>
         <package android:name="com.google.android.apps.maps" />
+        <package android:name="com.spotify.music" />
 
         <intent>
             <action android:name="android.intent.action.VIEW" />
 
             <data android:scheme="geo" />
+        </intent>
+
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="spotify" />
         </intent>
     </queries>
 
