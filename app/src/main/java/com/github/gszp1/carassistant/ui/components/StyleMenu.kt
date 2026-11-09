@@ -1,10 +1,6 @@
 package com.github.gszp1.carassistant.ui.components
 
 import android.content.res.Configuration
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.rememberTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,39 +20,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DriveMode
 import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
 import com.github.gszp1.carassistant.ui.theme.Styles
 
-private const val MenuAlpha = 0.9f
-private const val EnterDurationMillis = 110
-private const val ExitDurationMillis = 70
-private const val CollapsedScale = 0.92f
-private val MenuOrigin = TransformOrigin(0f, 0f)
-
-private fun durationFor(shown: Boolean) =
-    if (shown) EnterDurationMillis else ExitDurationMillis
-private val MenuPadding = 16.dp
-private val MenuCorner = 20.dp
 private val OptionCorner = 12.dp
 private val ColumnSpacing = 14.dp
 private val OptionSpacing = 8.dp
@@ -74,40 +53,19 @@ fun StyleMenu(
     style: Styles = palette.style,
     mode: DriveMode = palette.mode,
 ) {
-    val transition = remember { MutableTransitionState(false) }
-    transition.targetState = visible
-
-    if (transition.currentState || transition.targetState) {
-        Popup(
-            alignment = Alignment.TopStart,
-            offset = anchorOffset,
-            onDismissRequest = onDismiss,
-            properties = PopupProperties(focusable = true),
-        ) {
-            val animation = rememberTransition(transition, label = "StyleMenu")
-            val alpha by animation.animateFloat(
-                transitionSpec = { tween(durationFor(targetState)) },
-                label = "alpha",
-            ) { shown -> if (shown) 1f else 0f }
-            val scale by animation.animateFloat(
-                transitionSpec = { tween(durationFor(targetState)) },
-                label = "scale",
-            ) { shown -> if (shown) 1f else CollapsedScale }
-
-            StylePanel(
-                style = style,
-                mode = mode,
-                onSelectStyle = onSelectStyle,
-                onSelectMode = onSelectMode,
-                modifier = Modifier.graphicsLayer {
-                    this.alpha = alpha
-                    scaleX = scale
-                    scaleY = scale
-                    transformOrigin = MenuOrigin
-                },
-                palette = palette,
-            )
-        }
+    DrivePopup(
+        visible = visible,
+        onDismiss = onDismiss,
+        label = "StyleMenu",
+        anchorOffset = anchorOffset,
+    ) {
+        StylePanel(
+            style = style,
+            mode = mode,
+            onSelectStyle = onSelectStyle,
+            onSelectMode = onSelectMode,
+            palette = palette,
+        )
     }
 }
 
@@ -120,15 +78,10 @@ private fun StylePanel(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
 ) {
-    Surface(
-        modifier = modifier,
-        shape = RoundedCornerShape(MenuCorner),
-        color = palette.contentCenter.copy(alpha = MenuAlpha),
-        border = BorderStroke(1.dp, palette.barOutline),
-    ) {
+    DrivePanel(modifier = modifier, palette = palette) {
         Row(
             modifier = Modifier
-                .padding(MenuPadding)
+                .padding(PanelPadding)
                 .height(IntrinsicSize.Min),
             horizontalArrangement = Arrangement.spacedBy(ColumnSpacing),
         ) {

@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.github.gszp1.carassistant.media.rememberMediaControls
 import com.github.gszp1.carassistant.navigation.openGoogleMaps
 import com.github.gszp1.carassistant.overlay.MapsOverlayService
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
@@ -61,6 +62,7 @@ class MainActivity : ComponentActivity() {
                 DriveScaffold(
                     onSelectStyle = { style = it },
                     onSelectMode = { mode = it },
+                    media = rememberMediaControls(),
                 ) {
                     AppLauncherRow(
                         onLaunch = { app ->
