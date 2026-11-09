@@ -11,6 +11,7 @@ import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.WindowManager
 import com.github.gszp1.carassistant.R
+import com.github.gszp1.carassistant.media.rememberMediaControls
 import com.github.gszp1.carassistant.ui.components.MapsOverlayBar
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DriveMode
@@ -46,7 +47,10 @@ class MapsOverlayService : Service() {
         hideBar()
         val host = OverlayComposeHost(ContextThemeWrapper(this, R.style.Theme_CarAssistant)) {
             CarAssistantTheme(style = style, mode = mode) {
-                MapsOverlayBar(onReturnToApp = ::returnToApp)
+                MapsOverlayBar(
+                    onReturnToApp = ::returnToApp,
+                    media = rememberMediaControls(),
+                )
             }
         }
         host.start()

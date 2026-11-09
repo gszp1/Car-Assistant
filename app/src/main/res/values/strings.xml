@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CarAssistant</string>
+    <string name="media_listener_label">CarAssistant media controls</string>
 </resources>
