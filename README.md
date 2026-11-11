@@ -32,3 +32,5 @@ Zapamiętanie miejsca parkowania(GPS)
 - Uruchamianie nawigacji (google maps) z poziomu aplikacji
 ### 07.11.2026-13.11.2026
 - Zarządzanie multimediami z poziomu głównego widoku: (zatrzymanie/wznowienie, przejście do poprzedniego/następnego utworu, zmiana głośności i wyciszenie)
+- Dodanie integracji z aplikacją odtwarzającą muzyke(Spotify)
+
