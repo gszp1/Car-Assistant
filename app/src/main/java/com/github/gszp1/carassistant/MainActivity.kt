@@ -29,11 +29,13 @@ import com.github.gszp1.carassistant.permissions.rememberPermissionsState
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.components.MusicApp
 import com.github.gszp1.carassistant.ui.components.NavigationApp
+import com.github.gszp1.carassistant.ui.components.WeatherApp
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DriveMode
 import com.github.gszp1.carassistant.ui.theme.Styles
 import com.github.gszp1.carassistant.ui.theme.systemDriveMode
+import com.github.gszp1.carassistant.weather.WeatherScreen
 
 private const val OverlayPermissionMessage = "Overlay permission denied – side bar is off"
 
@@ -86,19 +88,25 @@ class MainActivity : ComponentActivity() {
                         onSkip = { permissionsSkipped = true },
                     )
                 } else {
-                    DriveScaffold(
-                        onSelectStyle = { style = it },
-                        onSelectMode = { mode = it },
-                        media = rememberMediaControls(),
-                    ) {
-                        AppLauncherRow(
-                            onLaunch = { app ->
-                                when (app) {
-                                    NavigationApp -> launchWithOverlay(::openGoogleMaps)
-                                    MusicApp -> launchWithOverlay(::openSpotify)
-                                }
-                            },
-                        )
+                    var showWeather by rememberSaveable { mutableStateOf(false) }
+                    if (showWeather) {
+                        WeatherScreen(onBack = { showWeather = false })
+                    } else {
+                        DriveScaffold(
+                            onSelectStyle = { style = it },
+                            onSelectMode = { mode = it },
+                            media = rememberMediaControls(),
+                        ) {
+                            AppLauncherRow(
+                                onLaunch = { app ->
+                                    when (app) {
+                                        NavigationApp -> launchWithOverlay(::openGoogleMaps)
+                                        MusicApp -> launchWithOverlay(::openSpotify)
+                                        WeatherApp -> showWeather = true
+                                    }
+                                },
+                            )
+                        }
                     }
                 }
             }
