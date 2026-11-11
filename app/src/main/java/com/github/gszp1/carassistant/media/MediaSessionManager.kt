@@ -1,6 +1,5 @@
 package com.github.gszp1.carassistant.media
 
-import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -11,6 +10,7 @@ import android.media.session.PlaybackState
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
+import com.github.gszp1.carassistant.launcher.startActivitySafely
 import kotlin.math.roundToInt
 import android.media.session.MediaSessionManager as PlatformSessionManager
 
@@ -37,7 +37,7 @@ class MediaSessionManager(private val context: Context) {
 
     fun requestSessionAccess(): Boolean =
         listOfNotNull(listenerDetailSettingsIntent(), Intent(ListenerSettingsAction))
-            .any(::startActivitySafely)
+            .any(context::startActivitySafely)
 
     fun status(): MediaStatus {
         val controller = activeController()
@@ -166,15 +166,6 @@ class MediaSessionManager(private val context: Context) {
         } else {
             null
         }
-
-    private fun startActivitySafely(intent: Intent): Boolean = try {
-        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        true
-    } catch (_: ActivityNotFoundException) {
-        false
-    } catch (_: SecurityException) {
-        false
-    }
 
     private companion object {
         const val ListenerSettingsAction = Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS
