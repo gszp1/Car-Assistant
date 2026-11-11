@@ -23,6 +23,9 @@ import com.github.gszp1.carassistant.media.rememberMediaControls
 import com.github.gszp1.carassistant.music.openSpotify
 import com.github.gszp1.carassistant.navigation.openGoogleMaps
 import com.github.gszp1.carassistant.overlay.MapsOverlayService
+import com.github.gszp1.carassistant.permissions.PermissionRequest
+import com.github.gszp1.carassistant.permissions.PermissionsScreen
+import com.github.gszp1.carassistant.permissions.rememberPermissionsState
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.components.MusicApp
 import com.github.gszp1.carassistant.ui.components.NavigationApp
@@ -48,6 +51,9 @@ class MainActivity : ComponentActivity() {
             pendingExternalApp = null
         }
 
+    private val runtimePermissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,19 +70,36 @@ class MainActivity : ComponentActivity() {
             }
 
             CarAssistantTheme(style = style, mode = mode) {
-                DriveScaffold(
-                    onSelectStyle = { style = it },
-                    onSelectMode = { mode = it },
-                    media = rememberMediaControls(),
-                ) {
-                    AppLauncherRow(
-                        onLaunch = { app ->
-                            when (app) {
-                                NavigationApp -> launchWithOverlay(::openGoogleMaps)
-                                MusicApp -> launchWithOverlay(::openSpotify)
+                val permissionsState = rememberPermissionsState()
+                var permissionsSkipped by rememberSaveable { mutableStateOf(false) }
+                if (!permissionsState.allGranted && !permissionsSkipped) {
+                    PermissionsScreen(
+                        permissions = permissionsState.missing,
+                        onRequestPermission = { permission ->
+                            when (val request = permission.request(this)) {
+                                is PermissionRequest.OpenSettings ->
+                                    startActivity(request.intent)
+                                is PermissionRequest.RequestRuntimePermissions ->
+                                    runtimePermissionRequest.launch(request.permissions.toTypedArray())
                             }
                         },
+                        onSkip = { permissionsSkipped = true },
                     )
+                } else {
+                    DriveScaffold(
+                        onSelectStyle = { style = it },
+                        onSelectMode = { mode = it },
+                        media = rememberMediaControls(),
+                    ) {
+                        AppLauncherRow(
+                            onLaunch = { app ->
+                                when (app) {
+                                    NavigationApp -> launchWithOverlay(::openGoogleMaps)
+                                    MusicApp -> launchWithOverlay(::openSpotify)
+                                }
+                            },
+                        )
+                    }
                 }
             }
         }
@@ -87,10 +110,7 @@ class MainActivity : ComponentActivity() {
         MapsOverlayService.hide(this)
     }
 
-    /**
-     * Opens an external app and shows the side bar overlay
-     * on top of it so the user can return to app.
-     */
+
     private fun launchWithOverlay(openApp: () -> Boolean) {
         if (!Settings.canDrawOverlays(this) && !overlayPermissionAsked) {
             overlayPermissionAsked = true
