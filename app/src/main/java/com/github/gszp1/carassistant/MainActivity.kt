@@ -20,9 +20,11 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.github.gszp1.carassistant.media.rememberMediaControls
+import com.github.gszp1.carassistant.music.openSpotify
 import com.github.gszp1.carassistant.navigation.openGoogleMaps
 import com.github.gszp1.carassistant.overlay.MapsOverlayService
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
+import com.github.gszp1.carassistant.ui.components.MusicApp
 import com.github.gszp1.carassistant.ui.components.NavigationApp
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
@@ -38,9 +40,12 @@ class MainActivity : ComponentActivity() {
     private var overlayMode = DriveMode.NIGHT
     private var overlayPermissionAsked = false
 
+    private var pendingExternalApp: (() -> Boolean)? = null
+
     private val overlayPermissionRequest =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            launchNavigation()
+            pendingExternalApp?.let(::launchWithOverlay)
+            pendingExternalApp = null
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +71,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AppLauncherRow(
                         onLaunch = { app ->
-                            if (app == NavigationApp) launchNavigation()
+                            when (app) {
+                                NavigationApp -> launchWithOverlay(::openGoogleMaps)
+                                MusicApp -> launchWithOverlay(::openSpotify)
+                            }
                         },
                     )
                 }
@@ -79,13 +87,18 @@ class MainActivity : ComponentActivity() {
         MapsOverlayService.hide(this)
     }
 
-    private fun launchNavigation() {
+    /**
+     * Opens an external app and shows the side bar overlay
+     * on top of it so the user can return to app.
+     */
+    private fun launchWithOverlay(openApp: () -> Boolean) {
         if (!Settings.canDrawOverlays(this) && !overlayPermissionAsked) {
             overlayPermissionAsked = true
+            pendingExternalApp = openApp
             overlayPermissionRequest.launch(overlayPermissionIntent())
             return
         }
-        if (!openGoogleMaps()) return
+        if (!openApp()) return
 
         if (Settings.canDrawOverlays(this)) {
             MapsOverlayService.show(this, overlayStyle, overlayMode)
