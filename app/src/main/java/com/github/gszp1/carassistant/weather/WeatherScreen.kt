@@ -14,8 +14,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.github.gszp1.carassistant.ui.scaffold.drive.driveContentBackground
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
@@ -34,10 +36,14 @@ fun WeatherScreen(
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = palette.contentCenter,
+        color = Color.Transparent,
         contentColor = palette.barLabel,
     ) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .driveContentBackground(palette),
+        ) {
             IconButton(
                 onClick = onBack,
                 modifier = Modifier
