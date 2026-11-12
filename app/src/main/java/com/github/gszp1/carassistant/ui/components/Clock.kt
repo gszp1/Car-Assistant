@@ -24,15 +24,26 @@ fun Clock(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AndroidView(
-            factory = { context ->
-                TextClock(context).apply {
-                    format12Hour = "hh:mm a"
-                    textSize = 48f
-                }
-            },
-            update = { clock -> clock.setTextColor(color.toArgb()) },
-            modifier = Modifier.padding(5.dp),
-        )
+        TimeText(modifier = Modifier.padding(5.dp), color = color)
     }
+}
+
+@Composable
+fun TimeText(
+    modifier: Modifier = Modifier,
+    color: Color = LocalDrivePalette.current.iconAccent,
+    format12Hour: String = "hh:mm a",
+    format24Hour: String? = null,
+    textSizeSp: Float = 48f,
+) {
+    AndroidView(
+        factory = { context -> TextClock(context) },
+        update = { clock ->
+            clock.format12Hour = format12Hour
+            clock.format24Hour = format24Hour
+            clock.textSize = textSizeSp
+            clock.setTextColor(color.toArgb())
+        },
+        modifier = modifier,
+    )
 }

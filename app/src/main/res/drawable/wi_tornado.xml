@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Meteocons 2.0.0 by Bas Milius, MIT. https://github.com/basmilius/meteocons -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <path
+        android:pathData="M17,20 L47,20"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="27.5"
+                android:startY="12.21"
+                android:endX="36.5"
+                android:endY="27.79"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M19,26 L45,26"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="28"
+                android:startY="19.07"
+                android:endX="36"
+                android:endY="32.93"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M21.5,32 L42.5,32"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="28.63"
+                android:startY="26.15"
+                android:endX="35.38"
+                android:endY="37.85"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M24,38 L40,38"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="29.25"
+                android:startY="33.24"
+                android:endX="34.75"
+                android:endY="42.76"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M28,44 L36,44"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="30.25"
+                android:startY="40.97"
+                android:endX="33.75"
+                android:endY="47.03"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

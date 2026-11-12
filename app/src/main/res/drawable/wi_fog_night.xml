@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Meteocons 2.0.0 by Bas Milius, MIT. https://github.com/basmilius/meteocons -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <group>
+        <clip-path android:pathData="M0,7.5 h64 v32 h-64 z" />
+        <path
+            android:pathData="M46.66,36.2A16.66,16.66,0,0,1,29.88,19.65a16.29,16.29,0,0,1,.55-4.15A16.56,16.56,0,1,0,48.5,36.1C47.89,36.16,47.28,36.2,46.66,36.2Z"
+            android:strokeColor="#72b9d5"
+            android:strokeWidth="0.5"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="21.92"
+                    android:startY="18.75"
+                    android:endX="38.52"
+                    android:endY="47.52"
+                    android:tileMode="clamp">
+                    <item android:offset="0" android:color="#86c3db" />
+                    <item android:offset="0.45" android:color="#86c3db" />
+                    <item android:offset="1" android:color="#5eafcf" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
+    <path
+        android:pathData="M17,44 L47,44"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="15.5"
+                android:startY="44"
+                android:endX="48.5"
+                android:endY="44"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M17,51 L47,51"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:type="linear"
+                android:startX="15.5"
+                android:startY="51"
+                android:endX="48.5"
+                android:endY="51"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#d4d7dd" />
+                <item android:offset="0.45" android:color="#d4d7dd" />
+                <item android:offset="1" android:color="#bec1c6" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

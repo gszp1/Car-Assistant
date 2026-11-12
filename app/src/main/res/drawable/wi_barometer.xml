@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Meteocons 2.0.0 by Bas Milius, MIT. https://github.com/basmilius/meteocons -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    <path
+        android:pathData="M14,32 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0 z"
+        android:strokeColor="#e5e7eb"
+        android:strokeWidth="2"
+        android:strokeMiterLimit="10">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="linear"
+                android:startX="23"
+                android:startY="16.41"
+                android:endX="41"
+                android:endY="47.59"
+                android:tileMode="clamp">
+                <item android:offset="0" android:color="#6b7280" />
+                <item android:offset="0.45" android:color="#6b7280" />
+                <item android:offset="1" android:color="#374151" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M32,25V19M45.5,32h-6M25,32H19m22.5-8.5-3,3m-13,0-3-3m16,14,3,3m-19,0,3-3"
+        android:strokeColor="#9ca3af"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M29,32 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0 z"
+        android:fillColor="#ef4444" />
+    <path
+        android:pathData="M32,35.5 L32,20.5"
+        android:strokeColor="#ef4444"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeMiterLimit="10" />
+</vector>
