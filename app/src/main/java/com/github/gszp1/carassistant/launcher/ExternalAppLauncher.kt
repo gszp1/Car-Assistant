@@ -22,7 +22,10 @@ fun Context.openExternalApp(
         .any(::startActivitySafely)
 }
 
-
+/**
+ * Starts [intent] in a new task, returning false instead of throwing
+ * when no activity can handle it or the caller is not allowed to start it.
+ */
 fun Context.startActivitySafely(intent: Intent): Boolean = try {
     startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     true
