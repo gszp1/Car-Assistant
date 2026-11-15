@@ -42,6 +42,7 @@ const val MusicApp = "Music"
 val DriveApps = listOf(PhoneApp, NavigationApp, MusicApp)
 
 private fun appIcon(app: String): ImageVector? = when (app) {
+    PhoneApp -> PhoneHandset
     NavigationApp -> NavigationArrow
     MusicApp -> MusicNote
     else -> null
