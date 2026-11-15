@@ -35,10 +35,11 @@ private val AppTileSpacing = 20.dp
 private val AppTileCornerRadius = 16.dp
 private val AppIconSpacing = 10.dp
 
+const val PhoneApp = "Phone"
 const val NavigationApp = "Navigation"
 const val MusicApp = "Music"
 
-val DriveApps = listOf("Phone", NavigationApp, MusicApp)
+val DriveApps = listOf(PhoneApp, NavigationApp, MusicApp)
 
 private fun appIcon(app: String): ImageVector? = when (app) {
     NavigationApp -> NavigationArrow

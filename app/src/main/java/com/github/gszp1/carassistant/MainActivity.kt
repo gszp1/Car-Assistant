@@ -23,9 +23,11 @@ import com.github.gszp1.carassistant.media.rememberMediaControls
 import com.github.gszp1.carassistant.music.openSpotify
 import com.github.gszp1.carassistant.navigation.openGoogleMaps
 import com.github.gszp1.carassistant.overlay.MapsOverlayService
+import com.github.gszp1.carassistant.phone.openDialer
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.components.MusicApp
 import com.github.gszp1.carassistant.ui.components.NavigationApp
+import com.github.gszp1.carassistant.ui.components.PhoneApp
 import com.github.gszp1.carassistant.ui.scaffold.drive.DriveScaffold
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DriveMode
@@ -72,6 +74,7 @@ class MainActivity : ComponentActivity() {
                     AppLauncherRow(
                         onLaunch = { app ->
                             when (app) {
+                                PhoneApp -> launchWithOverlay(::openDialer)
                                 NavigationApp -> launchWithOverlay(::openGoogleMaps)
                                 MusicApp -> launchWithOverlay(::openSpotify)
                             }
