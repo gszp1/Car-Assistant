@@ -9,6 +9,7 @@
     <queries>
         <package android:name="com.google.android.apps.maps" />
         <package android:name="com.spotify.music" />
+        <package android:name="com.google.android.dialer" />
 
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -20,6 +21,10 @@
             <action android:name="android.intent.action.VIEW" />
 
             <data android:scheme="spotify" />
+        </intent>
+
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
         </intent>
     </queries>
 
