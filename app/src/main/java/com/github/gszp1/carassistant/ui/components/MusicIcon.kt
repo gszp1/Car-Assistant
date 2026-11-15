@@ -26,7 +26,6 @@ val MusicNote: ImageVector = ImageVector.Builder(
     viewportWidth = 24f,
     viewportHeight = 24f,
 ).apply {
-    // Outer ring, matching NavigationArrow.
     path(
         stroke = SolidColor(Color.Black),
         strokeLineWidth = 1.6f,
@@ -38,7 +37,6 @@ val MusicNote: ImageVector = ImageVector.Builder(
         arcToRelative(9.8f, 9.8f, 0f, isMoreThanHalf = true, isPositiveArc = true, 0f, -19.6f)
         close()
     }
-    // Beamed eighth notes: stems and beam.
     path(
         fill = SolidColor(Color.Black),
         strokeLineJoin = StrokeJoin.Round,
