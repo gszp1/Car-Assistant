@@ -36,6 +36,7 @@ import com.github.gszp1.carassistant.ui.theme.DriveMode
 import com.github.gszp1.carassistant.ui.theme.Styles
 import com.github.gszp1.carassistant.ui.theme.systemDriveMode
 import com.github.gszp1.carassistant.weather.WeatherScreen
+import com.github.gszp1.carassistant.weather.rememberWeatherState
 
 private const val OverlayPermissionMessage = "Overlay permission denied – side bar is off"
 
@@ -90,7 +91,12 @@ class MainActivity : ComponentActivity() {
                 } else {
                     var showWeather by rememberSaveable { mutableStateOf(false) }
                     if (showWeather) {
-                        WeatherScreen(onBack = { showWeather = false })
+                        val weather = rememberWeatherState()
+                        WeatherScreen(
+                            uiState = weather.uiState,
+                            onBack = { showWeather = false },
+                            onRefresh = weather::refresh,
+                        )
                     } else {
                         DriveScaffold(
                             onSelectStyle = { style = it },
