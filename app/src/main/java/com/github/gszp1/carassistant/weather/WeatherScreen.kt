@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -31,9 +30,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.github.gszp1.carassistant.ui.components.RoundedTrapezoidShape
 import com.github.gszp1.carassistant.ui.components.TimeText
 import com.github.gszp1.carassistant.ui.components.WeatherIcon
@@ -61,7 +67,6 @@ private val WarningIconSize = 30.dp
 private val WarningIconGap = 2.dp
 private const val ClockTextSizeSp = 20f
 
-private val ContentLift = 16.dp
 private val WeatherCircleSize = 220.dp
 private val WeatherCircleBorderWidth = 1.5.dp
 private val WeatherIconSize = 240.dp
@@ -76,6 +81,15 @@ private val LabelIndent = 32.dp
 private val MetricColumnWidth = 220.dp
 private val LabelSpacing = 20.dp
 private val LabelToValueGap = 2.dp
+
+private val AttributionBarHeight = 16.dp
+private val AttributionDividerHeight = 0.5.dp
+private const val AttributionTextSizeSp = 8f
+private const val AttributionLineHeightSp = 10f
+
+private const val AttributionPrefix = "Weather data by "
+private const val AttributionLinkLabel = "Open-Meteo.com"
+private const val AttributionLinkUrl = "https://open-meteo.com/"
 
 private const val DefaultLocation = "Krakow"
 private const val DefaultWarning = "Strong wind gusts"
@@ -129,9 +143,7 @@ fun WeatherScreen(
                 )
                 Box(modifier = Modifier.fillMaxWidth().weight(1f)) {
                     Row(
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .offset(y = -ContentLift),
+                        modifier = Modifier.align(Alignment.Center),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         WeatherMetricColumn(
@@ -172,6 +184,7 @@ fun WeatherScreen(
                         )
                     }
                 }
+                WeatherAttributionBar(palette = palette)
             }
             IconButton(
                 onClick = onBack,
@@ -188,6 +201,52 @@ fun WeatherScreen(
                     tint = palette.iconAccent,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun WeatherAttributionBar(
+    palette: DrivePalette,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier = modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(AttributionDividerHeight)
+                .background(palette.barOutline),
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(AttributionBarHeight)
+                .background(palette.barMid),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    append(AttributionPrefix)
+                    withLink(
+                        LinkAnnotation.Url(
+                            url = AttributionLinkUrl,
+                            styles = TextLinkStyles(
+                                style = SpanStyle(
+                                    color = palette.iconAccent,
+                                    textDecoration = TextDecoration.Underline,
+                                ),
+                            ),
+                        ),
+                    ) {
+                        append(AttributionLinkLabel)
+                    }
+                },
+                style = MaterialTheme.typography.labelSmall,
+                fontSize = AttributionTextSizeSp.sp,
+                lineHeight = AttributionLineHeightSp.sp,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
