@@ -29,7 +29,7 @@ private const val GridPanelAlpha = 0.78f
 private val GridPanelOrigin = TransformOrigin(0.5f, 0f)
 private val ScreenInsetVertical = 40.dp
 private val ScreenInsetHorizontal = 72.dp
-private val TitleSpacing = 16.dp
+private val BandSpacing = 16.dp
 
 internal const val AppGridTitle = "Applications"
 
@@ -47,6 +47,7 @@ fun AppGridMenu(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
     content: @Composable () -> Unit = {},
+    footer: @Composable () -> Unit = {},
 ) {
     DrivePopup(
         visible = visible,
@@ -69,6 +70,7 @@ fun AppGridMenu(
                 modifier = modifier.fillMaxSize(),
                 palette = palette,
                 content = content,
+                footer = footer,
             )
         }
     }
@@ -79,6 +81,7 @@ private fun AppGridPanel(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
     content: @Composable () -> Unit = {},
+    footer: @Composable () -> Unit = {},
 ) {
     DrivePanel(
         modifier = modifier.tapTarget {},
@@ -89,18 +92,29 @@ private fun AppGridPanel(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(PanelPadding),
-            verticalArrangement = Arrangement.spacedBy(TitleSpacing),
+            verticalArrangement = Arrangement.spacedBy(BandSpacing),
         ) {
-            Text(
-                text = AppGridTitle,
+            Box(
                 modifier = Modifier.fillMaxWidth(),
-                color = palette.barLabel,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
-                style = MaterialTheme.typography.titleLarge,
-            )
-            Box(modifier = Modifier.fillMaxSize()) {
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = AppGridTitle,
+                    color = palette.barLabel,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            ) {
                 content()
+            }
+            Box(modifier = Modifier.fillMaxWidth()) {
+                footer()
             }
         }
     }
