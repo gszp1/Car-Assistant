@@ -34,4 +34,6 @@ Zapamiętanie miejsca parkowania(GPS)
 - Zarządzanie multimediami z poziomu głównego widoku: (zatrzymanie/wznowienie, przejście do poprzedniego/następnego utworu, zmiana głośności i wyciszenie)
 - Dodanie integracji z aplikacją odtwarzającą muzyke(Spotify)  
 - Integracja z aplikacją książki telefonicznej
-- widok uprawnień przy uruchamianiu aplikacji  
+- widok uprawnień przy uruchamianiu aplikacji
+### 14.11.2026-20.11.2026
+- Widok warunków pogodowych
