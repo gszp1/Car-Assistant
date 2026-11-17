@@ -81,12 +81,13 @@ internal fun DrivePopup(
 internal fun DrivePanel(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
+    alpha: Float = PanelAlpha,
     content: @Composable () -> Unit,
 ) {
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(PanelCorner),
-        color = palette.contentCenter.copy(alpha = PanelAlpha),
+        color = palette.contentCenter.copy(alpha = alpha),
         border = BorderStroke(1.dp, palette.barOutline),
         content = content,
     )

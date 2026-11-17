@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.github.gszp1.carassistant.ui.components.AppGridMenu
 import com.github.gszp1.carassistant.ui.components.Clock
 import com.github.gszp1.carassistant.ui.components.StyleMenu
 import com.github.gszp1.carassistant.ui.theme.DriveMode
@@ -42,6 +43,7 @@ fun DriveTopBar(
     onOpenAppGrid: () -> Unit = {},
 ) {
     var stylesVisible by rememberSaveable { mutableStateOf(false) }
+    var appGridVisible by rememberSaveable { mutableStateOf(false) }
     var anchorHeight by remember { mutableIntStateOf(0) }
     val menuOffset = with(LocalDensity.current) {
         IntOffset(MenuInset.roundToPx(), MenuGap.roundToPx())
@@ -82,12 +84,20 @@ fun DriveTopBar(
             Clock(Modifier.weight(1f))
             DriveBarButton(
                 text = "Applications",
-                onClick = onOpenAppGrid,
+                onClick = {
+                    appGridVisible = true
+                    onOpenAppGrid()
+                },
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(BarSafeContentHeight),
                 icon = Icons.Default.GridView
             )
         }
+        AppGridMenu(
+            visible = appGridVisible,
+            onDismiss = { appGridVisible = false },
+            palette = palette,
+        )
     }
 }
