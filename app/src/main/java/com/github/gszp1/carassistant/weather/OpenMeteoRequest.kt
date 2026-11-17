@@ -6,6 +6,8 @@ internal object OpenMeteoRequest {
 
     private const val ForecastEndpoint = "https://api.open-meteo.com/v1/forecast"
 
+    const val UserAgent = "CarAssistant/1.0 (+https://github.com/gszp1/Car-Assistant)"
+
     private const val CoordinateFormat = "%.4f"
 
     private val CurrentVariables = listOf(

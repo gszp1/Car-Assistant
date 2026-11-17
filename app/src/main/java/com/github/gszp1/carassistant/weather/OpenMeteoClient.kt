@@ -25,6 +25,9 @@ private const val ConnectTimeoutMillis = 10_000
 private const val ReadTimeoutMillis = 10_000
 private const val ErrorDetailLimit = 500
 
+private const val ForbiddenMessage =
+    "Open-Meteo blocked this request (HTTP 403) - the free API limits requests per IP"
+
 private class HttpOpenMeteoClient(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : OpenMeteoClient {
@@ -46,6 +49,7 @@ private class HttpOpenMeteoClient(
             connectTimeout = ConnectTimeoutMillis
             readTimeout = ReadTimeoutMillis
             setRequestProperty("Accept", "application/json")
+            setRequestProperty("User-Agent", OpenMeteoRequest.UserAgent)
         }
         try {
             val status = connection.responseCode
@@ -59,12 +63,18 @@ private class HttpOpenMeteoClient(
     }
 
     private fun errorMessage(status: Int, body: String?): String {
-        val reason = body?.let(::reasonOrNull) ?: body?.take(ErrorDetailLimit)
-        return if (reason.isNullOrBlank()) {
-            "Open-Meteo responded with HTTP $status"
-        } else {
-            "Open-Meteo responded with HTTP $status: $reason"
+        val reason = body?.let(::reasonOrNull)?.ifBlank { null } ?: detailOrNull(body)
+        return when {
+            reason != null -> "Open-Meteo responded with HTTP $status: $reason"
+            status == HTTP_FORBIDDEN -> ForbiddenMessage
+            else -> "Open-Meteo responded with HTTP $status"
         }
+    }
+
+    private fun detailOrNull(body: String?): String? {
+        val trimmed = body?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+        if (trimmed.startsWith("<")) return null
+        return trimmed.take(ErrorDetailLimit)
     }
 
     private fun reasonOrNull(body: String): String? = try {
@@ -78,5 +88,6 @@ private class HttpOpenMeteoClient(
 
     private companion object {
         val HTTP_OK_RANGE = 200..299
+        const val HTTP_FORBIDDEN = 403
     }
 }
