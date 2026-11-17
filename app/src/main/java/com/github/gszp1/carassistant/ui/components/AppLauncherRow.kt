@@ -38,13 +38,15 @@ private val AppIconSpacing = 10.dp
 const val PhoneApp = "Phone"
 const val NavigationApp = "Navigation"
 const val MusicApp = "Music"
+const val WeatherApp = "Weather"
 
-val DriveApps = listOf(PhoneApp, NavigationApp, MusicApp)
+val DriveApps = listOf(PhoneApp, NavigationApp, MusicApp, WeatherApp)
 
 private fun appIcon(app: String): ImageVector? = when (app) {
     PhoneApp -> PhoneHandset
     NavigationApp -> NavigationArrow
     MusicApp -> MusicNote
+    WeatherApp -> PartlyCloudyDay
     else -> null
 }
 

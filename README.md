@@ -14,6 +14,11 @@ Panel pogodowy
 System powiadomień(ostrzeżenia pogodowe, konfigurowalne powiadomienia)  
 Automatyczna zmiana między trybem dziennym a nocnym  
 Zapamiętanie miejsca parkowania(GPS)  
+## Grafika
+Ikony pogodowe: [Meteocons](https://github.com/basmilius/meteocons) autorstwa Basa Miliusa (licencja MIT, kopia w `third_party/meteocons/LICENSE`).
+Warunki pogodowe są animowane (Lottie, `res/raw/`), ikony przy pomiarach są statyczne (vector drawable, `res/drawable/`).
+Import obu zestawów: `python3 tools/import_meteocons.py`
+
 ## Postępy w realizacji
 ### 16.10.2026-23.10.2026
 - Rozpoczęcie prac nad implementacją projektu  
