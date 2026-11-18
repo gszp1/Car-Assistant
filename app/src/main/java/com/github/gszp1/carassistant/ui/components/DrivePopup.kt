@@ -5,6 +5,8 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.rememberTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -76,6 +78,13 @@ internal fun DrivePopup(
         }
     }
 }
+
+@Composable
+internal fun Modifier.dismissOnTap(onClick: () -> Unit): Modifier = clickable(
+    interactionSource = remember { MutableInteractionSource() },
+    indication = null,
+    onClick = onClick,
+)
 
 @Composable
 internal fun DrivePanel(

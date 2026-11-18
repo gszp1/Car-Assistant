@@ -2,9 +2,9 @@ package com.github.gszp1.carassistant.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,21 +23,29 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.github.gszp1.carassistant.launcher.GridApp
+import com.github.gszp1.carassistant.launcher.GridApps
+import com.github.gszp1.carassistant.launcher.rememberAppIcon
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
 import com.github.gszp1.carassistant.ui.theme.DrivePalette
 import com.github.gszp1.carassistant.ui.theme.LocalDrivePalette
@@ -58,12 +67,7 @@ internal const val AddAppDescription = "Add application"
 
 internal const val AppGridTitle = "Applications"
 
-@Composable
-private fun Modifier.tapTarget(onClick: () -> Unit): Modifier = clickable(
-    interactionSource = remember { MutableInteractionSource() },
-    indication = null,
-    onClick = onClick,
-)
+internal const val RemoveAppHint = "Hold an application to remove it"
 
 @Composable
 fun AppGridMenu(
@@ -71,10 +75,12 @@ fun AppGridMenu(
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
-    tiles: Int = 0,
-    onAddApp: () -> Unit = {},
+    grid: GridApps = GridApps.Empty,
+    onLaunchApp: (GridApp) -> Unit = {},
     footer: @Composable () -> Unit = {},
 ) {
+    var pickerVisible by rememberSaveable { mutableStateOf(false) }
+
     DrivePopup(
         visible = visible,
         onDismiss = onDismiss,
@@ -86,7 +92,7 @@ fun AppGridMenu(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .tapTarget(onDismiss)
+                .dismissOnTap(onDismiss)
                 .padding(
                     horizontal = ScreenInsetHorizontal,
                     vertical = ScreenInsetVertical,
@@ -95,24 +101,42 @@ fun AppGridMenu(
             AppGridPanel(
                 modifier = modifier.fillMaxSize(),
                 palette = palette,
-                tiles = tiles,
-                onAddApp = onAddApp,
+                apps = grid.pinned,
+                onAddApp = {
+                    grid.refreshAvailable()
+                    pickerVisible = true
+                },
+                onLaunchApp = onLaunchApp,
+                onRemoveApp = grid::remove,
                 footer = footer,
             )
         }
     }
+
+    AppPickerMenu(
+        visible = visible && pickerVisible,
+        onDismiss = { pickerVisible = false },
+        palette = palette,
+        apps = grid.available,
+        onPickApp = { app ->
+            grid.add(app)
+            pickerVisible = false
+        },
+    )
 }
 
 @Composable
 private fun AppGridPanel(
     modifier: Modifier = Modifier,
     palette: DrivePalette = LocalDrivePalette.current,
-    tiles: Int = 0,
+    apps: List<GridApp> = emptyList(),
     onAddApp: () -> Unit = {},
+    onLaunchApp: (GridApp) -> Unit = {},
+    onRemoveApp: (GridApp) -> Unit = {},
     footer: @Composable () -> Unit = {},
 ) {
     DrivePanel(
-        modifier = modifier.tapTarget {},
+        modifier = modifier.dismissOnTap {},
         palette = palette,
         alpha = GridPanelAlpha,
     ) {
@@ -122,9 +146,9 @@ private fun AppGridPanel(
                 .padding(PanelPadding),
             verticalArrangement = Arrangement.spacedBy(BandSpacing),
         ) {
-            Box(
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = AppGridTitle,
@@ -133,13 +157,23 @@ private fun AppGridPanel(
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.titleLarge,
                 )
+                if (apps.isNotEmpty()) {
+                    Text(
+                        text = RemoveAppHint,
+                        color = palette.barLabel,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelMedium,
+                    )
+                }
             }
             AppTileGrid(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                tiles = tiles,
+                apps = apps,
                 onAddApp = onAddApp,
+                onLaunchApp = onLaunchApp,
+                onRemoveApp = onRemoveApp,
                 palette = palette,
             )
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -152,14 +186,16 @@ private fun AppGridPanel(
 @Composable
 private fun AppTileGrid(
     modifier: Modifier = Modifier,
-    tiles: Int = 0,
+    apps: List<GridApp> = emptyList(),
     onAddApp: () -> Unit = {},
+    onLaunchApp: (GridApp) -> Unit = {},
+    onRemoveApp: (GridApp) -> Unit = {},
     palette: DrivePalette = LocalDrivePalette.current,
 ) {
     BoxWithConstraints(modifier) {
         val tileSize = tileSizeFor(maxHeight)
         val columns = columnsFor(maxWidth, tileSize)
-        val rows = ((tiles + 1) + columns - 1) / columns
+        val rows = ((apps.size + 1) + columns - 1) / columns
         VerticalPager(
             state = rememberPagerState { rows },
             modifier = Modifier
@@ -171,10 +207,12 @@ private fun AppTileGrid(
         ) { row ->
             TileRow(
                 first = row * columns,
-                last = minOf((row + 1) * columns, tiles + 1) - 1,
-                addTileIndex = tiles,
+                last = minOf((row + 1) * columns, apps.size + 1) - 1,
+                apps = apps,
                 tileSize = tileSize,
                 onAddApp = onAddApp,
+                onLaunchApp = onLaunchApp,
+                onRemoveApp = onRemoveApp,
                 palette = palette,
             )
         }
@@ -191,9 +229,11 @@ private fun columnsFor(available: Dp, tileSize: Dp): Int =
 private fun TileRow(
     first: Int,
     last: Int,
-    addTileIndex: Int,
+    apps: List<GridApp>,
     tileSize: Dp,
     onAddApp: () -> Unit,
+    onLaunchApp: (GridApp) -> Unit,
+    onRemoveApp: (GridApp) -> Unit,
     palette: DrivePalette = LocalDrivePalette.current,
 ) {
     Row(
@@ -201,25 +241,80 @@ private fun TileRow(
         horizontalArrangement = Arrangement.spacedBy(TileSpacing),
     ) {
         (first..last).forEach { index ->
-            if (index == addTileIndex) {
+            val app = apps.getOrNull(index)
+            if (app == null) {
                 AddTile(onClick = onAddApp, tileSize = tileSize, palette = palette)
             } else {
-                EmptyTile(tileSize = tileSize, palette = palette)
+                AppTile(
+                    app = app,
+                    tileSize = tileSize,
+                    onClick = { onLaunchApp(app) },
+                    onLongClick = { onRemoveApp(app) },
+                    palette = palette,
+                )
             }
         }
     }
 }
 
 @Composable
-private fun EmptyTile(
+private fun AppTile(
+    app: GridApp,
     tileSize: Dp,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
     palette: DrivePalette = LocalDrivePalette.current,
 ) {
-    Box(
+    Surface(
         modifier = Modifier
             .size(tileSize)
-            .border(TileBorder, palette.barOutline, RoundedCornerShape(TileCorner)),
-    )
+            .combinedClickable(onLongClick = onLongClick, onClick = onClick),
+        shape = RoundedCornerShape(TileCorner),
+        color = Color.Transparent,
+        contentColor = palette.iconAccent,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            AppIcon(
+                packageName = app.packageName,
+                modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(1f),
+            )
+            Text(
+                text = app.label,
+                color = palette.barLabel,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelLarge,
+            )
+        }
+    }
+}
+
+@Composable
+internal fun AppIcon(
+    packageName: String,
+    modifier: Modifier = Modifier,
+) {
+    val icon = rememberAppIcon(packageName)
+    if (icon == null) {
+        Icon(
+            imageVector = Icons.Default.Apps,
+            contentDescription = null,
+            modifier = modifier,
+        )
+    } else {
+        Image(
+            bitmap = icon,
+            contentDescription = null,
+            modifier = modifier,
+        )
+    }
 }
 
 @Composable

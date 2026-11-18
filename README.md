@@ -42,3 +42,5 @@ Import obu zestawów: `python3 tools/import_meteocons.py`
 - widok uprawnień przy uruchamianiu aplikacji
 ### 14.11.2026-20.11.2026
 - Widok warunków pogodowych
+- Siatka szybkiego dostępu do aplikacji
+- Integracja z lokalną bazą danych (Room) 

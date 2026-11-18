@@ -11,6 +11,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.github.gszp1.carassistant.launcher.GridApp
+import com.github.gszp1.carassistant.launcher.GridApps
 import com.github.gszp1.carassistant.media.MediaControls
 import com.github.gszp1.carassistant.ui.components.AppLauncherRow
 import com.github.gszp1.carassistant.ui.theme.CarAssistantTheme
@@ -29,6 +31,8 @@ fun DriveScaffold(
     onSelectStyle: (Styles) -> Unit = {},
     onSelectMode: (DriveMode) -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
+    grid: GridApps = GridApps.Empty,
+    onLaunchApp: (GridApp) -> Unit = {},
     media: MediaControls = MediaControls.Inactive,
     content: @Composable () -> Unit = {},
 ) {
@@ -48,6 +52,8 @@ fun DriveScaffold(
                 onSelectStyle = onSelectStyle,
                 onSelectMode = onSelectMode,
                 onOpenAppGrid = onOpenAppGrid,
+                grid = grid,
+                onLaunchApp = onLaunchApp,
             )
             Box(
                 modifier = Modifier

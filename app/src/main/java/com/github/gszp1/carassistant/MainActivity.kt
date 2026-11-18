@@ -19,6 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.github.gszp1.carassistant.launcher.openGridApp
+import com.github.gszp1.carassistant.launcher.rememberGridApps
 import com.github.gszp1.carassistant.media.rememberMediaControls
 import com.github.gszp1.carassistant.music.openSpotify
 import com.github.gszp1.carassistant.navigation.openGoogleMaps
@@ -103,6 +105,8 @@ class MainActivity : ComponentActivity() {
                         DriveScaffold(
                             onSelectStyle = { style = it },
                             onSelectMode = { mode = it },
+                            grid = rememberGridApps(),
+                            onLaunchApp = { app -> launchWithOverlay { openGridApp(app) } },
                             media = rememberMediaControls(),
                         ) {
                             AppLauncherRow(

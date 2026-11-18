@@ -22,6 +22,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.github.gszp1.carassistant.launcher.GridApp
+import com.github.gszp1.carassistant.launcher.GridApps
 import com.github.gszp1.carassistant.ui.components.AppGridMenu
 import com.github.gszp1.carassistant.ui.components.Clock
 import com.github.gszp1.carassistant.ui.components.StyleMenu
@@ -41,6 +43,8 @@ fun DriveTopBar(
     onSelectStyle: (Styles) -> Unit = {},
     onSelectMode: (DriveMode) -> Unit = {},
     onOpenAppGrid: () -> Unit = {},
+    grid: GridApps = GridApps.Empty,
+    onLaunchApp: (GridApp) -> Unit = {},
 ) {
     var stylesVisible by rememberSaveable { mutableStateOf(false) }
     var appGridVisible by rememberSaveable { mutableStateOf(false) }
@@ -98,6 +102,8 @@ fun DriveTopBar(
             visible = appGridVisible,
             onDismiss = { appGridVisible = false },
             palette = palette,
+            grid = grid,
+            onLaunchApp = onLaunchApp,
         )
     }
 }
